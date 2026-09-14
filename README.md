@@ -22,7 +22,7 @@ Install with one click on **Microsoft Edge** or any Chromium browser:
 👉 **[Add to Edge from Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/live-train-delay-tracker/pknpnmpklieceipblhgfniafbcmpakao)**
 
 ### Option 2: Chrome / Brave / Vivaldi / Opera (Manual Sideload)
-1. **Download:** Grab the latest [`train-delay-tracker-v2.0.4.zip`](https://github.com/RajdipGhosh99/live-train-running-status-browser-extension/releases/latest/download/train-delay-tracker-v2.0.4.zip).
+1. **Download:** Grab the latest [`train-delay-tracker-v2.0.5.zip`](https://github.com/RajdipGhosh99/live-train-running-status-browser-extension/releases/latest/download/train-delay-tracker-v2.0.5.zip).
 2. **Unzip:** Extract the archive into a permanent folder on your computer.
 3. **Load:** Open `chrome://extensions/` (or `edge://extensions/`), enable **Developer mode** (top-right), click **Load unpacked**, and select the extracted folder.
 
@@ -30,7 +30,8 @@ Install with one click on **Microsoft Edge** or any Chromium browser:
 
 | Version | Release Date | Archive Package | Highlights | Release Notes |
 | :--- | :---: | :---: | :--- | :---: |
-| **`v2.0.4`** (Latest) | `2026-09-06` | [📥 `v2.0.4.zip`](https://github.com/RajdipGhosh99/live-train-running-status-browser-extension/releases/download/v2.0.4/train-delay-tracker-v2.0.4.zip) | Default auto-check all trains enabled, single-line HUD header title fix | [Release Notes](https://github.com/RajdipGhosh99/live-train-running-status-browser-extension/releases/tag/v2.0.4) |
+| **`v2.0.5`** (Latest) | `2026-09-14` | [📥 `v2.0.5.zip`](https://github.com/RajdipGhosh99/live-train-running-status-browser-extension/releases/download/v2.0.5/train-delay-tracker-v2.0.5.zip) | CWS Store compliance (removed unused scripting permission, minimum permissions audit), native extension UI test suite (`popup.html` & `options.html`), IRCTC live autocomplete testing, Playwright test speed & socket resilience optimizations | [Release Notes](https://github.com/RajdipGhosh99/live-train-running-status-browser-extension/releases/tag/v2.0.5) |
+| **`v2.0.4`** | `2026-09-06` | [📥 `v2.0.4.zip`](https://github.com/RajdipGhosh99/live-train-running-status-browser-extension/releases/download/v2.0.4/train-delay-tracker-v2.0.4.zip) | Default auto-check all trains enabled, single-line HUD header title fix | [Release Notes](https://github.com/RajdipGhosh99/live-train-running-status-browser-extension/releases/tag/v2.0.4) |
 | **`v2.0.3`** | `2026-09-06` | [📥 `v2.0.3.zip`](https://github.com/RajdipGhosh99/live-train-running-status-browser-extension/releases/download/v2.0.3/train-delay-tracker-v2.0.3.zip) | Settings tabs linking fix (`#providers`, `#caching`), scroll-spy sync, card decoupling | [Release Notes](https://github.com/RajdipGhosh99/live-train-running-status-browser-extension/releases/tag/v2.0.3) |
 | **`v2.0.2`** | `2026-09-06` | [📥 `v2.0.2.zip`](https://github.com/RajdipGhosh99/live-train-running-status-browser-extension/releases/download/v2.0.2/train-delay-tracker-v2.0.2.zip) | HUD SPA auto-hide fix, Restore HUD popup action, Alt+H hotkey, launcher pill | [Release Notes](https://github.com/RajdipGhosh99/live-train-running-status-browser-extension/releases/tag/v2.0.2) |
 | **`v2.0.1`** | `2026-09-06` | [📥 `v2.0.1.zip`](https://github.com/RajdipGhosh99/live-train-running-status-browser-extension/releases/download/v2.0.1/train-delay-tracker-v2.0.1.zip) | New Indian Flag Squircle vector identity, modular Playwright E2E suite, layout fixes | [Release Notes](https://github.com/RajdipGhosh99/live-train-running-status-browser-extension/releases/tag/v2.0.1) |
@@ -121,11 +122,17 @@ npm run dev
 # Run type checks and build
 npm run build
 
-# Package extension zip
+# Package extension zip & SHA-256 checksums
 npm run package
 
-# Run Playwright Multi-Tab Live Real-Site E2E Test Suite (Headful by default)
-npm run test:e2e
+# Run unit tests (DOM parsing, regex, vendor configs)
+npm run test
+
+# Run native extension UI test (popup.html & options.html)
+npm run test:ui
+
+# Run Playwright real-site live booking portal suite across all 9 portals
+npm run test:e2e:all
 ```
 
 ---
@@ -166,6 +173,11 @@ flowchart TD
   - Formatted strictly as 24-hr clock duration (e.g. `04:49` or `00:00`) with zero raw minute counts (`289m Late`).
   - Clean physical station location micro-banner with zero redundant delay text.
   - Action footer featuring compact 24-hour update clock (`Updated: HH:MM`) and interactive **Copy** and **Refresh** buttons.
+
+### 3. Native Extension UI & Settings Dashboard E2E Testing (`npm run test:ui`)
+- **Direct Extension Context Execution:** Boots Google Chrome with unpacked extension loaded, inspects the active Service Worker runtime to dynamically resolve the generated extension ID (`chrome-extension://<id>/`).
+- **Options Dashboard Verification (`options.html`):** Tests navigation across all 6 sections (General, On-Demand, Providers, Caching, Compliance, Release History), verifies dynamic data provider card rendering, and tests live cache clearing actions.
+- **Popup Quick Search Verification (`popup.html`):** Validates master toggle switch transitions, recent search chips, quick train lookup input, and real-time live delay status card rendering.
 
 ---
 
