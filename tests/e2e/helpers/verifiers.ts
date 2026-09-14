@@ -78,7 +78,7 @@ export async function testBadgePositionSequence(page: Page): Promise<PositionSwi
       })('${pos}')
     `) as boolean;
 
-    await page.waitForTimeout(600);
+    await page.waitForTimeout(200);
 
     // 2. Validate DOM layout according to position
     const domCheck = await page.evaluate(`
@@ -115,7 +115,7 @@ export async function testBadgePositionSequence(page: Page): Promise<PositionSwi
       });
     })()
   `);
-  await page.waitForTimeout(400);
+  await page.waitForTimeout(150);
 
   return results;
 }
@@ -141,7 +141,7 @@ export async function verifyHoverPopoverInteractivity(page: Page): Promise<Hover
   `);
 
   // 2. Wait for async chrome.runtime.sendMessage and DOM popover rendering
-  await page.waitForTimeout(1500);
+  await page.waitForTimeout(500);
 
   const data = await page.evaluate(`
     (function() {
@@ -204,4 +204,13 @@ export async function verifyHoverPopoverInteractivity(page: Page): Promise<Hover
   `) as HoverPopoverResults;
 
   return data;
+}
+
+export async function safeClosePage(page: Page, timeoutMs = 3000): Promise<void> {
+  try {
+    await Promise.race([
+      page.close({ runBeforeUnload: false }),
+      new Promise((resolve) => setTimeout(resolve, timeoutMs)),
+    ]);
+  } catch {}
 }

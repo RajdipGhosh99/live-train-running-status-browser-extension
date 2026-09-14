@@ -9,6 +9,7 @@ import { PlaywrightPortalResult } from '../../helpers/types';
 import { injectExtensionInPlaywrightPage } from '../../helpers/injector';
 import {
   navigatePortalWithResilience,
+  safeClosePage,
   testBadgePositionSequence,
   verifyHoverPopoverInteractivity,
 } from '../../helpers/verifiers';
@@ -128,7 +129,7 @@ export async function verifyIxigoProvider(
       console.log(`   ⚡ Action Footer (Clock + Copy/Refresh): ${result.popover.actionButtons && result.popover.clockFormatted ? '✅ PASSED' : '❌ FAILED'}`);
     }
 
-    if (!isHeadless) await page.waitForTimeout(1500);
+    if (!isHeadless) await page.waitForTimeout(500);
     await page.screenshot({ path: path.join(screenshotsDir, screenshotFile) });
     console.log(`   📸 Screenshot Saved: ${screenshotFile}`);
 
@@ -148,7 +149,7 @@ export async function verifyIxigoProvider(
     console.error('   ❌ Ixigo error:', err.message);
   } finally {
     console.log('   🔒 Closing Ixigo tab before next provider...');
-    await page.close();
+    await safeClosePage(page);
   }
 
   return result;

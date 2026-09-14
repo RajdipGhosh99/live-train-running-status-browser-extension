@@ -9,6 +9,7 @@ import { PlaywrightPortalResult } from '../../helpers/types';
 import { injectExtensionInPlaywrightPage } from '../../helpers/injector';
 import {
   navigatePortalWithResilience,
+  safeClosePage,
   testBadgePositionSequence,
   verifyHoverPopoverInteractivity,
 } from '../../helpers/verifiers';
@@ -114,7 +115,7 @@ export async function verifyMakeMyTripProvider(
       console.log(`   🚫 Zero Duplicates / Clean Location: ${result.popover.zeroDuplicates ? '✅ 100% CLEAN' : '❌ FAILED'}`);
       console.log(`   ⚡ Action Footer (Clock + Copy/Refresh): ${result.popover.actionButtons && result.popover.clockFormatted ? '✅ PASSED' : '❌ FAILED'}`);
 
-      if (!isHeadless) await page.waitForTimeout(1500);
+      if (!isHeadless) await page.waitForTimeout(500);
     }
 
     await page.screenshot({ path: path.join(screenshotsDir, screenshotFile) });
@@ -136,7 +137,7 @@ export async function verifyMakeMyTripProvider(
     console.error('   ❌ MakeMyTrip error:', err.message);
   } finally {
     console.log('   🔒 Closing MakeMyTrip tab before next provider...');
-    await page.close();
+    await safeClosePage(page);
   }
 
   return result;

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Live Train Delay Tracker",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Real-time live train delay tracker & historical punctuality across ConfirmTkt, MakeMyTrip, ClearTrip & Ixigo.",
   "homepage_url": "https://github.com/RajdipGhosh99",
   "icons": {
@@ -13,7 +13,6 @@
   "permissions": [
     "storage",
     "unlimitedStorage",
-    "scripting",
     "tabs"
   ],
   "host_permissions": [
@@ -36,8 +35,7 @@
     "*://*.railyatri.in/*",
     "*://railyatri.in/*",
     "https://*.rapidapi.com/*",
-    "https://*.indianrailapi.com/*",
-    "https://*/*"
+    "https://*.indianrailapi.com/*"
   ],
   "action": {
     "default_popup": "popup.html",

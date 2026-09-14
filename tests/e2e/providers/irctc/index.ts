@@ -9,6 +9,7 @@ import { PlaywrightPortalResult } from '../../helpers/types';
 import { injectExtensionInPlaywrightPage } from '../../helpers/injector';
 import {
   navigatePortalWithResilience,
+  safeClosePage,
   testBadgePositionSequence,
   verifyHoverPopoverInteractivity,
 } from '../../helpers/verifiers';
@@ -37,10 +38,10 @@ export async function verifyIrctcProvider(
     step: 4,
     portal: 'IRCTC NextGen (Live)',
     url: irctcUrl,
-    trainsIdentified: 1,
+    trainsIdentified: 0,
     buttonInjected: false,
     positions: { besideName: false, headerRight: false, belowName: false },
-    deltaY: 2.4,
+    deltaY: 0,
     popover: {
       opened: false,
       box1Class: '',
@@ -56,38 +57,48 @@ export async function verifyIrctcProvider(
   };
 
   try {
-    console.log(`   Navigating to: ${irctcUrl}`);
+    console.log(`   Navigating to IRCTC search: ${irctcUrl}`);
     await navigatePortalWithResilience(page, irctcUrl, 35000);
-    await page.waitForTimeout(4000);
+    await page.waitForTimeout(3000);
 
     // Dismiss dialog if any
     try {
       await page.evaluate(`
-        var okBtn = document.querySelector('.btn-primary, button[type="submit"]');
+        var okBtn = document.querySelector('.btn-primary, button[type="submit"], .ui-dialog-titlebar-close');
         if (okBtn) okBtn.click();
       `);
     } catch {}
 
-    await injectExtensionInPlaywrightPage(page, distDir, '22436', 'beside-name');
-    let irctcBadges = await page.locator('.rail-delay-wrapper').count();
-    if (irctcBadges === 0) {
-      await page.evaluate(`
-        (function() {
-          var container = document.querySelector('app-train-list, .form-group, app-root, body');
-          if (container) {
-            var card = document.createElement('div');
-            card.className = 'bull-back train-card';
-            card.innerHTML = '<div class="train-heading"><strong>12842 COROMANDEL EXP</strong></div>';
-            container.prepend(card);
-          }
-        })()
-      `);
-      await injectExtensionInPlaywrightPage(page, distDir, '12842', 'beside-name');
-      irctcBadges = await page.locator('.rail-delay-wrapper').count();
+    // Perform real search: New Delhi (NDLS) -> Kanpur (CNB)
+    const inputs = await page.locator('p-autocomplete input').all();
+    if (inputs.length >= 2) {
+      console.log('   Entering source station: New Delhi (NDLS)...');
+      await inputs[0].click();
+      await inputs[0].fill('NDLS');
+      await page.waitForTimeout(1200);
+      await page.keyboard.press('Enter');
+
+      console.log('   Entering destination station: Kanpur (CNB)...');
+      await inputs[1].click();
+      await inputs[1].fill('CNB');
+      await page.waitForTimeout(1200);
+      await page.keyboard.press('Enter');
+
+      console.log('   Clicking "Search Trains" button on IRCTC...');
+      const searchBtn = page.locator('button.search_btn, button[type="submit"]:has-text("खोजें"), button:has-text("Find Trains"), button:has-text("Search")').first();
+      await searchBtn.click();
+      await page.waitForTimeout(7000);
     }
 
+    // Count real live train cards loaded by Angular
+    const realCards = await page.locator('app-train-item, div.train-details, .bull-back, div[class*="train-card"]').count();
+    result.trainsIdentified = realCards;
+    console.log(`   ✅ Real Live Train Cards Identified on IRCTC: ${realCards}`);
+
+    await injectExtensionInPlaywrightPage(page, distDir, '12004', 'beside-name');
+    let irctcBadges = await page.locator('.rail-delay-wrapper').count();
     result.buttonInjected = irctcBadges > 0;
-    console.log(`   ✅ IRCTC Live Portal Loaded & Badges Injected: ${irctcBadges}`);
+    console.log(`   ✅ IRCTC Live Badges Injected on Real Cards: ${irctcBadges}`);
 
     if (irctcBadges > 0) {
       // 1. Sequential Position Change -> Save -> Test -> Next Position
@@ -115,7 +126,7 @@ export async function verifyIrctcProvider(
       };
     }
 
-    if (!isHeadless) await page.waitForTimeout(1500);
+    if (!isHeadless) await page.waitForTimeout(500);
 
     await page.screenshot({ path: path.join(screenshotsDir, screenshotFile) });
     console.log(`   📸 Screenshot Saved: ${screenshotFile}`);
@@ -136,7 +147,7 @@ export async function verifyIrctcProvider(
     console.error('   ❌ IRCTC error:', err.message);
   } finally {
     console.log('   🔒 Closing IRCTC tab before next provider...');
-    await page.close();
+    await safeClosePage(page);
   }
 
   return result;

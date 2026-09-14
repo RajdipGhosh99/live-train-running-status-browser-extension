@@ -1,6 +1,6 @@
 {
   "name": "live-train-delay-tracker",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "High-performance, open-source real-time live train delay tracker across ConfirmTkt, MakeMyTrip, ClearTrip, Ixigo, Goibibo, and Paytm.",
   "author": "Rajdip Ghosh <https://github.com/RajdipGhosh99>",
   "license": "GPL-3.0-or-later",
@@ -40,6 +40,7 @@
     "test:e2e:ixigo": "npm run build && npx tsx tests/e2e/playwright-suite.ts --provider=ixigo",
     "test:e2e:irctc": "npm run build && npx tsx tests/e2e/playwright-suite.ts --provider=irctc",
     "test:e2e:all": "npm run build && npx tsx tests/e2e/playwright-suite.ts --all",
+    "test:ui": "npm run build && npx tsx tests/e2e/extension-ui.ts",
     "pack": "node scripts/pack.js",
     "package": "npm run build && npm run pack",
     "bump": "node scripts/bump-version.js",

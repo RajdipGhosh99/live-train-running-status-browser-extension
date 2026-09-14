@@ -96,5 +96,5 @@ export async function injectExtensionInPlaywrightPage(
 
   await page.evaluate(bridgeScript);
   await page.evaluate(jsContent);
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(400);
 }

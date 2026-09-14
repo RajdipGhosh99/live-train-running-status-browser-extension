@@ -62,9 +62,8 @@ We have no server infrastructure. No data is routed through our servers.
 | Permission | Why it's needed |
 |---|---|
 | `storage` | Save your settings and train delay cache locally on your device |
-| `unlimitedStorage` | Allow the local cache to hold data for many trains without hitting Chrome's default 5 MB quota |
-| `scripting` | Inject delay badges onto booking portal pages and trigger bulk lookups from the popup |
-| `tabs` | Open the Settings page in a new tab when you click "Open Settings" in the popup |
+| `unlimitedStorage` | Allow the local cache to hold data for many trains without hitting Chrome's default 10 MB quota |
+| `tabs` | Check if current active tab is a supported booking portal and communicate with page content script from the popup |
 | Host permissions (booking portals) | Run the content script on supported booking sites to inject delay information |
 | Host permissions (API domains) | Allow the extension to call third-party train status APIs directly from your browser |
 

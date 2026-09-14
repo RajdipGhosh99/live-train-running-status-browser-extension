@@ -59,7 +59,9 @@ export async function runSequentialPlaywrightSuite() {
   }
 
   // Launch Playwright Context with Extension Loaded
+  const chromeChannel = fs.existsSync('/Applications/Google Chrome.app') ? 'chrome' : undefined;
   const context = await chromium.launchPersistentContext(userDataDir, {
+    channel: chromeChannel,
     headless: isHeadless,
     args: [
       `--disable-extensions-except=${distDir}`,

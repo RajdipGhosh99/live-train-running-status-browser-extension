@@ -4,6 +4,14 @@ All notable changes to the **Live Train Delay Tracker** extension are documented
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.5] - 2026-09-14
+
+### 🔒 Security & Store Compliance
+- **Chrome Web Store Compliance (Purple Potassium Remediation)**: Removed unused `scripting` permission from `manifest.json`. The extension uses declarative `content_scripts` to inject badges directly into supported booking portals without requiring programmatic script execution permissions.
+- **Permissions Audit**: Updated `PRIVACY.md` to reflect strict minimum permission principles adhering to Chrome Web Store developer policies.
+
+---
+
 ## [2.0.4] - 2026-09-06
 
 ### 🚀 Added
