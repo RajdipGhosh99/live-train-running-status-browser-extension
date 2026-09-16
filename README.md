@@ -7,6 +7,7 @@
 </p>
 
 <p align="center">
+  <a href="https://chromewebstore.google.com/detail/live-train-delay-tracker/cobgngjagafbacjpahojpbmpfhbknjnd"><img src="https://img.shields.io/badge/Chrome%20Web%20Store-Available%20on%20Chrome-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Chrome Web Store" /></a>
   <a href="https://microsoftedge.microsoft.com/addons/detail/live-train-delay-tracker/pknpnmpklieceipblhgfniafbcmpakao"><img src="https://img.shields.io/badge/Microsoft%20Edge-Available%20on%20Edge%20Add--ons-0078D7?style=for-the-badge&logo=microsoftedge&logoColor=white" alt="Edge Add-ons" /></a>
   <a href="https://github.com/RajdipGhosh99/live-train-running-status-browser-extension/releases/latest"><img src="https://img.shields.io/badge/Download-Latest%20Release-blue?style=for-the-badge&logo=github" alt="Download Release" /></a>
   <a href="https://github.com/RajdipGhosh99/live-train-running-status-browser-extension/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-GPL--3.0-green.svg?style=for-the-badge" alt="GPL 3.0" /></a>
@@ -17,11 +18,15 @@
 
 ## ⚡ Quick Install
 
-### Option 1: Microsoft Edge Add-ons Store (Recommended)
-Install with one click on **Microsoft Edge** or any Chromium browser:  
+### Option 1: Chrome Web Store (Recommended for Chrome, Brave, Opera, Vivaldi)
+Install with 1-click directly from the Google Chrome Web Store:  
+👉 **[Add to Chrome from Chrome Web Store](https://chromewebstore.google.com/detail/live-train-delay-tracker/cobgngjagafbacjpahojpbmpfhbknjnd)**
+
+### Option 2: Microsoft Edge Add-ons Store
+Install with 1-click on Microsoft Edge:  
 👉 **[Add to Edge from Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/live-train-delay-tracker/pknpnmpklieceipblhgfniafbcmpakao)**
 
-### Option 2: Chrome / Brave / Vivaldi / Opera (Manual Sideload)
+### Option 3: Manual Sideload (Developer / Offline)
 1. **Download:** Grab the latest [`train-delay-tracker-v2.0.5.zip`](https://github.com/RajdipGhosh99/live-train-running-status-browser-extension/releases/latest/download/train-delay-tracker-v2.0.5.zip).
 2. **Unzip:** Extract the archive into a permanent folder on your computer.
 3. **Load:** Open `chrome://extensions/` (or `edge://extensions/`), enable **Developer mode** (top-right), click **Load unpacked**, and select the extracted folder.
@@ -203,4 +208,5 @@ See the [LICENSE](LICENSE) file for details.
 
 **Rajdip Ghosh**  
 - GitHub: [@RajdipGhosh99](https://github.com/RajdipGhosh99)  
+- Chrome Web Store: [Live Train Delay Tracker](https://chromewebstore.google.com/detail/live-train-delay-tracker/cobgngjagafbacjpahojpbmpfhbknjnd)
 - Microsoft Edge Add-on: [Live Train Delay Tracker](https://microsoftedge.microsoft.com/addons/detail/live-train-delay-tracker/pknpnmpklieceipblhgfniafbcmpakao)
